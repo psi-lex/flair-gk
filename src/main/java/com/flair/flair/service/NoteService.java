@@ -14,5 +14,6 @@ public interface NoteService {
   void deleteNote(Long assignmentId, Long noteId);
 
   Set<NoteTo> displayAllNotesForSpecificAssignment(Long assignmentId);
+
   Set<NoteTo> displayAllNotes();
 }

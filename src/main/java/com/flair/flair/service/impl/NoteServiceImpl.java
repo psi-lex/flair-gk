@@ -19,7 +19,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -102,6 +101,7 @@ public class NoteServiceImpl implements NoteService {
 
   /**
    * Display all notes for specific assignment
+   *
    * @return notes
    */
   @Override
@@ -117,14 +117,15 @@ public class NoteServiceImpl implements NoteService {
 
   /**
    * Display all notes overall in database
+   *
    * @return notes
    */
 
-  //@PreAuthorize("hasRole('ADMIN')")
+  // @PreAuthorize("hasRole('ADMIN')")
   @Override
   public Set<NoteTo> displayAllNotes() {
     return noteRepository.findAll().stream()
-            .map(noteMapper::mapNoteEntityToNoteTo)
-            .collect(Collectors.toSet());
+        .map(noteMapper::mapNoteEntityToNoteTo)
+        .collect(Collectors.toSet());
   }
 }

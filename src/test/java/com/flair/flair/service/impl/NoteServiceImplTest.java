@@ -10,6 +10,8 @@ import com.flair.flair.model.NewNoteTo;
 import com.flair.flair.persistence.AssignmentEntity;
 import com.flair.flair.persistence.EmployeeEntity;
 import com.flair.flair.persistence.NoteEntity;
+import java.util.Objects;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,70 +19,59 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Objects;
-import java.util.Optional;
-
-
 @ExtendWith(MockitoExtension.class)
 class NoteServiceImplTest {
 
-    @InjectMocks
-    private NoteServiceImpl noteService;
+  @InjectMocks private NoteServiceImpl noteService;
 
-    @Mock
-    private NoteRepository noteRepository;
+  @Mock private NoteRepository noteRepository;
 
-    @Mock
-    private AssignmentRepository assignmentRepository;
+  @Mock private AssignmentRepository assignmentRepository;
 
-    @Mock
-    private EmployeeRepository employeeRepository;
+  @Mock private EmployeeRepository employeeRepository;
 
-    @Mock
-    private NoteMapper noteMapper;
+  @Mock private NoteMapper noteMapper;
 
-    @Test
-    void addNewNoteTest() {
+  @Test
+  void addNewNoteTest() {
 
-        AssignmentEntity assignment = new AssignmentEntity();
-        Long assignmentId = 1L;
-        assignment.setStatus(AssignmentStatus.STARTED);
-        assignment.setType(AssignmentType.SERVICE);
-        assignment.setId(assignmentId);
+    AssignmentEntity assignment = new AssignmentEntity();
+    Long assignmentId = 1L;
+    assignment.setStatus(AssignmentStatus.STARTED);
+    assignment.setType(AssignmentType.SERVICE);
+    assignment.setId(assignmentId);
 
-        EmployeeEntity employee = new EmployeeEntity();
-        Long employeeId = 2L;
-        employee.setId(employeeId);
+    EmployeeEntity employee = new EmployeeEntity();
+    Long employeeId = 2L;
+    employee.setId(employeeId);
 
-        NoteEntity noteEntity = new NoteEntity();
-        Long noteId = 2L;
-        noteEntity.setId(noteId);
+    NoteEntity noteEntity = new NoteEntity();
+    Long noteId = 2L;
+    noteEntity.setId(noteId);
 
-        NewNoteTo newNoteTo = new NewNoteTo();
+    NewNoteTo newNoteTo = new NewNoteTo();
 
-        Mockito.when(assignmentRepository.findById(assignmentId)).thenReturn(Optional.of(assignment));
-        Mockito.when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(employee));
-        Mockito.when(noteMapper.mapNewNoteToToNoteEntity(newNoteTo)).thenReturn(noteEntity);
+    Mockito.when(assignmentRepository.findById(assignmentId)).thenReturn(Optional.of(assignment));
+    Mockito.when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(employee));
+    Mockito.when(noteMapper.mapNewNoteToToNoteEntity(newNoteTo)).thenReturn(noteEntity);
 
-        noteService.addNewNote(assignmentId, employeeId, newNoteTo);
+    noteService.addNewNote(assignmentId, employeeId, newNoteTo);
 
-        Mockito.verify(noteRepository).save(Mockito.argThat(
+    Mockito.verify(noteRepository)
+        .save(
+            Mockito.argThat(
                 note ->
-                        note.getAssignment() == assignment &&
-                                note.getAuthor() == employee &&
-                                Objects.equals(note.getId(), noteEntity.getId())
-        ));
-    }
+                    note.getAssignment() == assignment
+                        && note.getAuthor() == employee
+                        && Objects.equals(note.getId(), noteEntity.getId())));
+  }
 
-    @Test
-    void updateNoteTest() {
-    }
+  @Test
+  void updateNoteTest() {}
 
-    @Test
-    void deleteNoteTest() {
-    }
+  @Test
+  void deleteNoteTest() {}
 
-    @Test
-    void displayAllNotesForSpecificAssignmentTest() {
-    }
+  @Test
+  void displayAllNotesForSpecificAssignmentTest() {}
 }
