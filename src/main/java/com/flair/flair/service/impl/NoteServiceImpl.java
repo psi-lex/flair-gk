@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -58,7 +59,6 @@ public class NoteServiceImpl implements NoteService {
             .orElseThrow(() -> new EmployeeNotFoundException(employeeId));
     NoteEntity noteEntity = this.noteMapper.mapNewNoteToToNoteEntity(newNoteTo);
     noteEntity.setAssignment(assignment);
-    // TODO później twórcą będę "ja" czyli użytkownik zalogowany // SecurityContextHolder
     noteEntity.setAuthor(employee);
     noteRepository.save(noteEntity);
     LOGGER.info("New note with id {} added to DB", noteEntity.getId());
@@ -100,8 +100,12 @@ public class NoteServiceImpl implements NoteService {
     LOGGER.info("Note with id {} deleted", noteEntity.getId());
   }
 
+  /**
+   * Display all notes for specific assignment
+   * @return notes
+   */
   @Override
-  public Set<NoteTo> displayAllNotes(Long assignmentId) {
+  public Set<NoteTo> displayAllNotesForSpecificAssignment(Long assignmentId) {
     AssignmentEntity assignment =
         assignmentRepository
             .findById(assignmentId)
@@ -109,5 +113,18 @@ public class NoteServiceImpl implements NoteService {
     return assignment.getNoteEntitySet().stream()
         .map(noteMapper::mapNoteEntityToNoteTo)
         .collect(Collectors.toSet());
+  }
+
+  /**
+   * Display all notes overall in database
+   * @return notes
+   */
+
+  //@PreAuthorize("hasRole('ADMIN')")
+  @Override
+  public Set<NoteTo> displayAllNotes() {
+    return noteRepository.findAll().stream()
+            .map(noteMapper::mapNoteEntityToNoteTo)
+            .collect(Collectors.toSet());
   }
 }

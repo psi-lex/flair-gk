@@ -68,8 +68,8 @@ VALUES ('Jan', NULL, 'Kowalski', 1),
 -- Insert sample assignments
 -- =========================================
 INSERT INTO assignment_entity (address_id, status, type)
-VALUES (1, 'NEW', 'TASK'),
-       (2, 'IN_PROGRESS', 'PROJECT');
+VALUES (1, 'CREATED', 'FEATURE'),
+       (2, 'CREATED', 'FEATURE');
 
 -- =========================================
 -- Link employees to assignments
@@ -82,5 +82,5 @@ VALUES (1, 1),
 -- Insert sample notes
 -- =========================================
 INSERT INTO note_entity (content, author_id, assignment_id)
-VALUES ('Pierwsza notatka', 1, 1),
-       ('Druga notatka', 2, 2);
+VALUES ('First test note', 1, 1),
+       ('Second test note', 2, 2);

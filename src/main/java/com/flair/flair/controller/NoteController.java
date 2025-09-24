@@ -20,7 +20,12 @@ public class NoteController {
   }
 
   @GetMapping("/all/{id}")
-  public ResponseEntity<Set<NoteTo>> getAllNotes(@PathVariable Long id) {
-    return ResponseEntity.ok(this.noteService.displayAllNotes(id));
+  public ResponseEntity<Set<NoteTo>> getAllNotesForSpecificAssignment(@PathVariable Long id) {
+    return ResponseEntity.ok(this.noteService.displayAllNotesForSpecificAssignment(id));
+  }
+
+  @GetMapping("/all")
+  public ResponseEntity<Set<NoteTo>> getAllNotes() {
+    return ResponseEntity.ok(this.noteService.displayAllNotes());
   }
 }

@@ -11,6 +11,6 @@ import lombok.*;
 public class NoteTo {
 
   private String content;
-  private LocalDateTime createdDate;
+  private LocalDateTime createdAt;
   private String author;
 }
