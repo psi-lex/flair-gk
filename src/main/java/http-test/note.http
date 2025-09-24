@@ -1,0 +1,2 @@
+GET http://localhost:8080/note/all/5
+Accept: application/json

@@ -1,0 +1,19 @@
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: username
+    password: password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          enable: true
+  # prometheus / grafana
+  management:
+    endpoints:
+      web:
+        exposure:
+          include:*
+    health:
+      show-details: always

@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://host.docker.internal:5433/flair_dev_db
+    username: devuser
+    password: devpass
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true

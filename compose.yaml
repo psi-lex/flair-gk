@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:15
+    container_name: flair_dev_db
+    environment:
+      POSTGRES_DB: flair_dev_db
+      POSTGRES_USER: devuser
+      POSTGRES_PASSWORD: devpass
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
+
+volumes:
+  db_data:
