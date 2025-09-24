@@ -9,8 +9,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class EmailMessageTo {
 
-    private String to;
-    private String subject;
-    private String text;
-
+  private String to;
+  private String subject;
+  private String text;
 }

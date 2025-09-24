@@ -9,7 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 public class UpdateNoteTo {
 
-    private Long noteId;
-    private String content;
-
+  private Long noteId;
+  private String content;
 }

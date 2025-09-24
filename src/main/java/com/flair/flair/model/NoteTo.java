@@ -1,8 +1,7 @@
 package com.flair.flair.model;
 
-import lombok.*;
-
 import java.time.LocalDateTime;
+import lombok.*;
 
 @Getter
 @Setter
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class NoteTo {
 
-    private String content;
-    private LocalDateTime createdDate;
-    private String author;
+  private String content;
+  private LocalDateTime createdDate;
+  private String author;
 }
