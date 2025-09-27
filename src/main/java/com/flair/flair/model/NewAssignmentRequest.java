@@ -1,9 +1,8 @@
 package com.flair.flair.model;
 
 import com.flair.flair.enums.AssignmentType;
-import lombok.*;
-
 import java.util.Set;
+import lombok.*;
 
 @Getter
 @Setter
@@ -12,9 +11,8 @@ import java.util.Set;
 @AllArgsConstructor
 public class NewAssignmentRequest {
 
-    private Set<Long> employeesId;
-    private AssignmentType assignmentType;
-    private AddressRequest address;
-    private CustomerTo customerTo;
-
+  private Set<Long> employeesId;
+  private AssignmentType assignmentType;
+  private AddressRequest address;
+  private CustomerTo customerTo;
 }

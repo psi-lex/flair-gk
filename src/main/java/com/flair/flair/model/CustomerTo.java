@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class CustomerTo {
 
-    private String name;
-    private String mobileNumber;
-    private String email;
+  private String name;
+  private String mobileNumber;
+  private String email;
 }

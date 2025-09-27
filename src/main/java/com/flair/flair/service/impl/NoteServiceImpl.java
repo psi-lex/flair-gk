@@ -121,7 +121,6 @@ public class NoteServiceImpl implements NoteService {
    *
    * @return notes
    */
-
   @PreAuthorize("hasRole('ADMIN')")
   @Override
   public Set<NoteTo> displayAllNotes() {

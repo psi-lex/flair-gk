@@ -5,10 +5,12 @@ import com.flair.flair.exception.AssignmentNotFoundException;
 import com.flair.flair.exception.EmployeeNotFoundException;
 import com.flair.flair.jparepository.AssignmentRepository;
 import com.flair.flair.jparepository.EmployeeRepository;
+import com.flair.flair.mapper.AssignmentMapper;
 import com.flair.flair.model.NewAssignmentRequest;
 import com.flair.flair.persistence.AssignmentEntity;
 import com.flair.flair.persistence.EmployeeEntity;
 import com.flair.flair.service.AssignmentService;
+import com.flair.flair.validator.AddressValidator;
 import java.util.HashSet;
 import java.util.Set;
 import org.slf4j.Logger;
@@ -19,15 +21,28 @@ import org.springframework.stereotype.Service;
 @Service
 public class AssignmentServiceImpl implements AssignmentService {
 
+  // logger
   private static final Logger LOGGER = LoggerFactory.getLogger(AssignmentService.class);
 
+  // repositories
   private final AssignmentRepository assignmentRepository;
   private final EmployeeRepository employeeRepository;
 
+  // mappers
+  private final AssignmentMapper assignmentMapper;
+
+  // validators
+  private final AddressValidator addressValidator;
+
   public AssignmentServiceImpl(
-      AssignmentRepository assignmentRepository, EmployeeRepository employeeRepository) {
+      AssignmentRepository assignmentRepository,
+      EmployeeRepository employeeRepository,
+      AssignmentMapper assignmentMapper,
+      AddressValidator addressValidator) {
     this.assignmentRepository = assignmentRepository;
     this.employeeRepository = employeeRepository;
+    this.assignmentMapper = assignmentMapper;
+    this.addressValidator = addressValidator;
   }
 
   @PreAuthorize("hasRole('ADMIN')")
@@ -67,25 +82,34 @@ public class AssignmentServiceImpl implements AssignmentService {
 
   @Override
   public void addMyselfToService(Long assignmentId) {
-    //TODO SecurityContextHolder get my user
-    //EmployeeEntity employee = this.employeeRepository.findByEmail()
+    // TODO SecurityContextHolder get my user
+    // EmployeeEntity employee = this.employeeRepository.findByEmail()
 
   }
 
   @Override
   public void changeAssignmentStatus(Long assignmentId, AssignmentStatus status) {
     AssignmentEntity assignmentEntity =
-            this.assignmentRepository
-                    .findById(assignmentId)
-                    .orElseThrow(() -> new AssignmentNotFoundException(assignmentId));
+        this.assignmentRepository
+            .findById(assignmentId)
+            .orElseThrow(() -> new AssignmentNotFoundException(assignmentId));
     assignmentEntity.setStatus(status);
     assignmentRepository.save(assignmentEntity);
     LOGGER.info("Set status {} to assignment {}", status.toString(), assignmentId);
   }
 
-  @PreAuthorize("hasRole('ADMIN')")
+  // TODO
+  // @PreAuthorize("hasRole('ADMIN')")
   @Override
   public void createAssignment(NewAssignmentRequest newAssignmentTo) {
-
+    addressValidator.validateAddress(newAssignmentTo.getAddress());
+    AssignmentEntity assignment =
+        assignmentMapper.mapNewAssignmentRequestToAssignmentEntity(newAssignmentTo);
+    assignment.setStatus(AssignmentStatus.CREATED);
+    Set<EmployeeEntity> employeeEntitySet =
+        new HashSet<>(this.employeeRepository.findAllById(newAssignmentTo.getEmployeesId()));
+    assignment.setEmployees(employeeEntitySet);
+    assignmentRepository.save(assignment);
+    LOGGER.info("Created assignment with id {}", assignment.getId());
   }
 }
