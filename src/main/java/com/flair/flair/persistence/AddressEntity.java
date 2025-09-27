@@ -32,4 +32,7 @@ public class AddressEntity {
 
   @OneToOne(mappedBy = "address")
   private AssignmentEntity assignment;
+
+  @OneToOne(mappedBy = "address")
+  private CustomerEntity customer;
 }

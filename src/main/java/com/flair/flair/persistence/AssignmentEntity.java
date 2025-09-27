@@ -34,4 +34,8 @@ public class AssignmentEntity {
 
   @Enumerated(EnumType.STRING)
   private AssignmentType type;
+
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "customer_id", referencedColumnName = "id")
+  private CustomerEntity customer;
 }

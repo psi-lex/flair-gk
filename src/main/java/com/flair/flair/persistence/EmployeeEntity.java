@@ -26,6 +26,9 @@ public class EmployeeEntity {
   @Column(name = "last_name", nullable = false)
   private String lastName;
 
+  @Column(name = "email", unique = true)
+  private String email;
+
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "address_id", referencedColumnName = "id")
   private AddressEntity address;
